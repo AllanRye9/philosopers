@@ -55,11 +55,11 @@ int is_num(char **av)
 
 void print(t_philo *philo, char *s)
 {
-    long int time;
+    long int start;
     
     pthread_mutex_lock(&(philo->info->print));
-    time = timestamp() - philo->info->t_start;
-    if(!philo->info->stop && time >= 0  && time <= INT_MAX &&\
+    start = timestamp() - philo->info->t_start;
+    if(!philo->info->stop && start >= 0  && start <= INT_MAX &&\
         !is_dead(philo, 0))
         printf("%lld %d %s", timestamp() - philo->info->t_start, \
                 philo->n, s);
