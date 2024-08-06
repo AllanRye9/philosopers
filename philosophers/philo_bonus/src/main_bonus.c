@@ -5,7 +5,7 @@ int	main(int argc, char **argv)
 	t_args	args;
 
 	if (init_args(&args, argc, argv) == -1)
-		return (-1);
+		kill_philos(&args);
 	init_semaphores(&args);
 	init_monitor(&args);
 	ft_philo(&args);

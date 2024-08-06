@@ -2,25 +2,25 @@
 
 int var_init(t_info *data, char **av)
 {
+    if (is_num(av))
+        return (printf("Invalid Arguments\n"), 1);
+    data->n_philo = ft_atoi(av[1]);
+    data->t_die = ft_atoi(av[2]);
+    data->t_eat = ft_atoi(av[3]);
+    data->t_sleep = ft_atoi(av[4]);
+    data->nx_eat = 0;
+    if (av[5])
+        data->nx_eat = ft_atoi(av[5]);
+    if (av[5] && data->nx_eat == 0)
+        return (1);
     pthread_mutex_init(&data->print, NULL);
     pthread_mutex_init(&data->m_stop, NULL);
     pthread_mutex_init(&data->m_eat, NULL);
     pthread_mutex_init(&data->dead, NULL);
     data->stop = 0;
     data->philo = malloc(sizeof(t_philo) * data->n_philo);
-    if(!data->philo)
+    if (!data->philo)
         return (2);
-    if(is_num(av))
-        return (printf("Invalid Arguments\n"), 1);
-    data->t_eat = 0;
-    data->n_philo = ft_atoi(av[1]);
-    data->t_die = ft_atoi(av[2]);
-    data->t_eat = ft_atoi(av[3]);
-    data->t_sleep = ft_atoi(av[4]);
-    if(av[5])
-        data->nx_eat = ft_atoi(av[5]);
-    if(av[5] && data->nx_eat == 0)
-        return (1);
     return (0);
 }
 

@@ -10,7 +10,10 @@ void free_all(t_info *data)
         pthread_mutex_destroy(&data->philo[i].fork_l);
         pthread_mutex_destroy(data->philo[i].fork_r);
     }
-    free(data->philo);
+    if (data->philo) {
+        free(data->philo);
+        data->philo = NULL;
+    }
     pthread_mutex_destroy(&data->print);
     pthread_mutex_destroy(&data->m_stop);
     pthread_mutex_destroy(&data->m_eat);
