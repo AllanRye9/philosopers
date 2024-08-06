@@ -12,8 +12,11 @@ int	init_monitor(t_args *args)
 {
 	if (args->meals_to_eat)
 	{
-		if (pthread_create(&args->monitor_tid, 0, &meals_check, args))
+		if (pthread_create(&args->monitor_tid, NULL, &meals_check, args))
+		{
+			pthread_detach(args->monitor_tid);
 			return (1);
+		}
 		pthread_detach(args->monitor_tid);
 	}
 	return (0);

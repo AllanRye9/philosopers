@@ -32,4 +32,8 @@ void	kill_philos(t_args *args)
 		i++;
 	}
 	free(args->philo_pid);
+	sem_close(args->ate_enough_s);
+	sem_close(args->fork_s);
+	sem_close(args->stop_s);
+	sem_close(args->stdout_s);
 }
