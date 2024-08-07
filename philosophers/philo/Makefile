@@ -1,6 +1,6 @@
 NAME = philo
 CC = cc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g3
 INCLUDE = -I.
 LTHREAD = -lpthread
 SRC = 	src/philo.c \

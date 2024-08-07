@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oallan <oallan@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/06 21:44:37 by oallan            #+#    #+#             */
+/*   Updated: 2024/08/06 21:44:38 by oallan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
 
@@ -44,7 +56,6 @@ typedef struct s_args
 	t_philo		philo;
 }	t_args;
 
-
 void	taking_forks(t_args *args);
 void	eating(t_args *args);
 void	sleeping_and_thinking(t_args *args);
@@ -55,6 +66,9 @@ int		ft_philo(t_args *args);
 void	*meals_check(void *arg);
 int		init_monitor(t_args *args);
 int		init_semaphores(t_args *args);
+int		is_num(char *str);
+int		is_digit(char c);
+int		ft_is_num(char **av);
 int		init_args(t_args *args, int argc, char **argv);
 void	kill_philos(t_args *args);
 void	ft_usleep(int ms);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_bonus.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oallan <oallan@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/06 21:44:27 by oallan            #+#    #+#             */
+/*   Updated: 2024/08/06 21:44:28 by oallan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_bonus.h"
 
 void	init_philos(t_args *args)
@@ -14,7 +26,6 @@ int	init_monitor(t_args *args)
 	{
 		if (pthread_create(&args->monitor_tid, NULL, &meals_check, args))
 		{
-			pthread_detach(args->monitor_tid);
 			return (1);
 		}
 		pthread_detach(args->monitor_tid);

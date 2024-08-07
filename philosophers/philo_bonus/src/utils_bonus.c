@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oallan <oallan@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/06 21:44:40 by oallan            #+#    #+#             */
+/*   Updated: 2024/08/06 21:44:41 by oallan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_bonus.h"
 
-static int	is_num(char *str)
+int	is_num(char *str)
 {
 	int	i;
 
@@ -9,6 +21,26 @@ static int	is_num(char *str)
 	{
 		if (str[i] < '0' || str[i] > '9')
 			return (-1);
+		i++;
+	}
+	return (0);
+}
+
+int	ft_is_num(char **av)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (av[i])
+	{
+		j = 0;
+		while (av[i][j])
+		{
+			if (!is_digit(av[i][j]))
+				return (1);
+			j++;
+		}
 		i++;
 	}
 	return (0);
@@ -52,14 +84,4 @@ void	state_printing(t_args *args, int state)
 		printf("%ld %lu is sleeping\n", get_time() - args->start_time,
 			args->philo.philo_id + 1);
 	sem_post(args->stdout_s);
-}
-
-void	ft_usleep(int ms)
-{
-	long	time;
-
-	time = get_time();
-	usleep(ms * 920);
-	while (get_time() < time + ms)
-		usleep(ms * 3);
 }
