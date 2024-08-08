@@ -64,16 +64,3 @@ int	is_num(char **av)
 	}
 	return (0);
 }
-
-void	print(t_philo *philo, char *s)
-{
-	long int	start;
-
-	pthread_mutex_lock(&(philo->info->print));
-	start = timestamp() - philo->info->t_start;
-	if (!philo->info->stop && start >= 0 && start <= INT_MAX && \
-		!is_dead(philo, 0))
-		printf("%lld %d %s", timestamp() - philo->info->t_start, \
-				philo->n, s);
-	pthread_mutex_unlock(&(philo->info->print));
-}
