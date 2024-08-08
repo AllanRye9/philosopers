@@ -50,7 +50,6 @@ typedef struct s_info
 	pthread_mutex_t		dead;
 }t_info;
 
-void				display_error(void);
 int				is_digit(char c);
 int				is_num(char **av);
 int				var_init(t_info *data, char **av);
@@ -58,6 +57,7 @@ int				philo_init(t_info *data);
 int				is_dead(t_philo *philo, int np);
 int				ft_atoi(char *s);
 long long		timestamp(void);
+void			display_error(void);
 void			ft_usleep(int ms);
 void			free_all(t_info *data);
 void			print(t_philo *philo, char *s);
