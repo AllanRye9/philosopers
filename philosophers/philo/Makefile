@@ -8,7 +8,8 @@ SRC = 	src/philo.c \
 		src/utils.c \
 		src/timer.c \
 		src/clear.c \
-		src/init.c
+		src/init.c  \
+		src/philo_init.c
 OBJ = $(SRC:.c=.o)
 %.o : %.c
 		$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@
