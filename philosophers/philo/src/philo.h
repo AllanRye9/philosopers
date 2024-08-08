@@ -83,6 +83,7 @@ void			take_fork(t_philo *philo);
 void			philo_eat(t_philo *philo);
 void			*philo_life(void *p);
 void			philo_create(t_philo_run *philo_r);
+void			philo_join(t_philo_run *philo_r);
 void			init_philos(t_philo_m *philos, t_philo_p *args, int i);
 void			ft_printing(t_philo_m *m, enum e_print print);
 #endif
