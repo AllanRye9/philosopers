@@ -35,31 +35,27 @@ int	var_init(int ac, char **av, t_philo_p *args)
 	return (0);
 }
 
-int	philo_init(t_info *data)
+int	philo_init(t_philo_run *philo_r, t_philo *args)
 {
 	int	i;
 
-	data->t_start = timestamp();
-	i = -1;
-	while (++i < data->n_philo)
+	philo_r->philos = malloc(sizeof(t_philo_m) * args->numofphilo);
+	philo_r->threads = malloc(sizeof(pthread_t) * args->numofphilo);
+	philo_r->count = args->numofphilo;
+	philo_r->is_dead = 0;
+	pthread_mutex_init(&philo_r->printing, NULL);
+	if (!philo_r->philos || !philo_r->threads)
 	{
-		data->philo[i].n = i + 1;
-		data->philo[i].last_ate = 0;
-		data->philo[i].fork_r = NULL;
-		data->philo[i].info = data;
-		data->philo[i].m_count = 0;
-		pthread_mutex_init(&(data->philo[i].fork_l), NULL);
-		if (i == data->n_philo - 1)
-			data->philo[i].fork_r = &data->philo[0].fork_l;
-		else
-			data->philo[i].fork_r = &data->philo[i + 1].fork_l;
-		if (pthread_create(&data->philo[i].thread, NULL, \
-			&philo_life, &(data->philo[i])) != 0)
-			return (-1);
+		clean_philo_r(philo_r);
+		return (1);
 	}
-	i = -1;
-	while (++i < data->n_philo)
-		if (pthread_join(data->philo[i].thread, NULL) != 0)
-			return (-1);
+	i = 0;
+	while (i < args->numofphilo)
+	{
+		philo_r->philos[i].pr = &philo_r->printing;
+		philo_r->philos[i].data = philo_r;
+		init_philos(&philo_r->philos[i], args, i);
+		i++;
+	}
 	return (0);
 }
