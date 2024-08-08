@@ -29,3 +29,31 @@ void	init_philos(t_philo_m *philos, t_philo_p *args, int i)
 		        philos->secondfork = &philos->left_fork;
 	      }
 }
+
+void	ft_printing(t_philo_m *m, enum e_print print)
+{
+	const char	*msg[] = {
+		"has taken a fork", "is eating", "is sleeping",
+		"is thinking", "died"};
+
+	pthread_mutex_lock(m->pr);
+	if (m->data->is_dead != true && print == 4)
+	{
+		printf("%lld %d %s\n", philo_get_time() - m->p->timeatstart, m->id + 1,
+			msg[(int)print]);
+		m->data->is_dead = true;
+		pthread_mutex_unlock(m->pr);
+		return ;
+	}
+	else if (m->data->is_dead == true)
+	{
+		pthread_mutex_unlock(m->pr);
+		return ;
+	}
+	else
+	{
+		printf("%lld %d %s\n", philo_get_time() - m->p->timeatstart, m->id + 1,
+			msg[(int)print]);
+		pthread_mutex_unlock(m->pr);
+	}
+}
