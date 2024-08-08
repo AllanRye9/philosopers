@@ -16,23 +16,18 @@ void display_error(void)
 {
 	printf("Invalid Argument or Format\n");
 }
-void	free_all(t_info *data)
+
+void	free_all(t_philo_run *philo_r)
 {
 	int	i;
 
 	i = -1;
-	while (++i < data->n_philo)
+	while (++i < philo_r->count)
 	{
-		pthread_mutex_destroy(&data->philo[i].fork_l);
-		pthread_mutex_destroy(data->philo[i].fork_r);
+		pthread_mutex_destroy(&philo_r->philos[i].times_eaten_m);
+		pthread_mutex_destroy(&philo_r->philos[i].left_fork);
 	}
-	if (data->philo)
-	{
-		free(data->philo);
-		data->philo = NULL;
-	}
-	pthread_mutex_destroy(&data->print);
-	pthread_mutex_destroy(&data->m_stop);
-	pthread_mutex_destroy(&data->m_eat);
-	pthread_mutex_destroy(&data->dead);
+	pthread_mutex_destroy(&philo_r->printing);
+	free(philo_r->philos);
+	free(philo_r->threads);
 }
