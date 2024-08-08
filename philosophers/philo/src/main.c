@@ -14,9 +14,10 @@
 
 int	main(int ac, char **av)
 {
+	t_philo_p args;
 	t_info	data;
 
-	if (ac != 5 && ac != 6)
+	if (init_arg(ac, av, &args))
 		return (0);
 	if (var_init(&data, av) == 1)
 		return (free_all(&data), 0);
