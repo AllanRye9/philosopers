@@ -12,12 +12,13 @@
 
 #include "philo.h"
 
-long	long	timestamp(void)
+t_msec	timestamp(void)
 {
 	struct timeval	t;
 
-	gettimeofday(&t, NULL);
-	return (t.tv_sec * 1000 + t.tv_usec / 1000);
+	if (gettimeofday(&t, NULL))
+		return (-1);
+	return (((long long)t.tv_sec * 1000) + ((long long)t.tv_usec / 1000));
 }
 
 void	ft_usleep(int ms)
