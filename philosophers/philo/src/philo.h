@@ -73,7 +73,7 @@ int				var_init(t_info *data, char **av);
 int				philo_init(t_info *data);
 int				is_dead(t_philo *philo, int np);
 int				ft_atoi(char *s);
-long long		timestamp(void);
+t_msec				timestamp(void);
 void			display_error(void);
 void			ft_usleep(int ms);
 void			free_all(t_info *data);
