@@ -17,11 +17,9 @@ int	main(int ac, char **av)
 	t_philo_p args;
 	t_info	data;
 
-	if (init_arg(ac, av, &args))
+	if (var_init(ac, av, &args))
 		return (display_error(), 0);
 	args.timestart = timestamp();
-	if (var_init(&data, av) == 1)
-		return (free_all(&data), 0);
 	philo_init(&data);
 	free_all(&data);
 	return (0);
