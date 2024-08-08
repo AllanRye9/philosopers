@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-int	var_init(int ac, char **av, t_philo *args)
+int	var_init(int ac, char **av, t_philo_p *args)
 {
 	args->numtoeat = -1;
 	if (ac != 6 && ac != 5)
