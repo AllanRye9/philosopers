@@ -12,55 +12,70 @@
 
 #include "philo.h"
 
-int	ft_atoi(char *s)
+static int	check_int(int sign, int *n)
 {
-	int	i;
-	int	res;
+	if (!sign && *n == INT_MIN)
+		return (2);
+	if (*n < 0 && *n != INT_MIN)
+		return (2);
+	return (0);
+}
+
+int	my_atoi(const char *str, int *n)
+{
 	int	sign;
 
-	sign = 1;
-	res = 0;
-	i = 0;
-	while (s[i] == 32 || (s[i] >= 9 && s[i] <= 13))
-		i++;
-	if (s[i] == '-')
+	sign = 0;
+	*n = 0;
+	if (*str == '-')
+		sign = 1;
+	if (*str == '-' || *str == '+')
+		str++;
+	if (*str < '0' && *str > '9')
+		return (-1);
+	while (*str >= '0' && *str <= '9')
 	{
-		sign = -1;
-		i++;
+		*n *= 10;
+		*n += *str - '0';
+		if (check_int(sign, n))
+			return (2);
+		str++;
 	}
-	if (s[i] == '-' || s[i] == '+')
-		i++;
-	while (s[i] >= '0' && s[i] <= '9')
-	{
-		res = res * 10 + s[i] - '0';
-		i++;
-	}
-	return (res * sign);
+	if (sign)
+		*n *= -1;
+	if (*str == '\0')
+		return (0);
+	return (1);
 }
 
-int	is_digit(char c)
+static int	check_ll(int sign, t_msec *n)
 {
-	if (c >= '0' && c <= '9')
-		return (1);
+	if (!sign && *n == LLONG_MIN)
+		return (2);
+	if (*n < 0 && *n != LLONG_MIN)
+		return (2);
 	return (0);
 }
 
-int	is_num(char **av)
+int	my_atoll(const char *str, t_msec *n)
 {
-	int	i;
-	int	j;
+	int	sign;
 
-	i = 1;
-	while (av[i])
+	sign = 0;
+	*n = 0;
+	if (*str == '+')
+		str++;
+	if (*str < '0' && *str > '9')
+		return (-1);
+	while (*str >= '0' && *str <= '9')
 	{
-		j = 0;
-		while (av[i][j])
-		{
-			if (!is_digit(av[i][j]))
-				return (1);
-			j++;
-		}
-		i++;
+		*n *= 10;
+		*n += *str - '0';
+		if (check_ll(sign, n))
+			return (2);
+		str++;
 	}
-	return (0);
+	if (*str == '\0')
+		return (0);
+	return (1);
 }

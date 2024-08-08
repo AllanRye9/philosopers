@@ -67,17 +67,21 @@ enum	e_print {
 	e_dead = 4
 };
 
-int				is_digit(char c);
-int				is_num(char **av);
-int				var_init(t_info *data, char **av);
-int				philo_init(t_info *data);
-int				is_dead(t_philo *philo, int np);
-int				ft_atoi(char *s);
+int				my_atoi(const char *str, int *n);
+int				var_init(int ac, char **av, t_philo_p *args);
 int				ft_table(t_philo_m *m);
+int				my_atoll(const char *str, t_msec *n);
+int				philo_init(t_philo_run *philo_r, t_philo_p *args);
 t_msec				timestamp(void);
+void			ft_eating(t_philo_m *m);
+void			ft_sleeping(t_philo_m *m);
 void			display_error(void);
-void			ft_usleep(int ms);
-void			free_all(t_info *data);
+void			ft_thinking(t_philo_m *m);
+void			ft_usleep(t_msec ms);
+void			ft_dying(t_philo_m *m);
+void			*philo_routine(void *philo);
+void			free_all(t_philo_run *philo_r);
+void			init_philos(t_philo_m *philos, t_philo_p *args, int i);
 void			*philo_life(void *p);
 void			philo_create(t_philo_run *philo_r);
 void			philo_join(t_philo_run *philo_r);

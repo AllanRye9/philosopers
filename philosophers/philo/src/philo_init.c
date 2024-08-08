@@ -9,6 +9,7 @@
 /*   Updated: 2024/08/07 15:24:05 by oallan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "philo.h"
 
 void	init_philos(t_philo_m *philos, t_philo_p *args, int i)
 {
@@ -39,7 +40,7 @@ void	ft_printing(t_philo_m *m, enum e_print print)
 	pthread_mutex_lock(m->pr);
 	if (m->data->is_dead != true && print == 4)
 	{
-		printf("%lld %d %s\n", philo_get_time() - m->p->timeatstart, m->id + 1,
+		printf("%lld %d %s\n", timestamp() - m->p->timeatstart, m->id + 1,
 			msg[(int)print]);
 		m->data->is_dead = true;
 		pthread_mutex_unlock(m->pr);
@@ -52,7 +53,7 @@ void	ft_printing(t_philo_m *m, enum e_print print)
 	}
 	else
 	{
-		printf("%lld %d %s\n", philo_get_time() - m->p->timeatstart, m->id + 1,
+		printf("%lld %d %s\n", timestamp() - m->p->timeatstart, m->id + 1,
 			msg[(int)print]);
 		pthread_mutex_unlock(m->pr);
 	}

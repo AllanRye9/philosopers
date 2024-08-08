@@ -19,15 +19,15 @@ int	var_init(int ac, char **av, t_philo_p *args)
 		return (1);
 	if (my_atoi(av[1], &args->numofphilo))
 		return (1);
-	if (my_atoll(argv[2], &args->timetodie))
+	if (my_atoll(av[2], &args->timetodie))
 		return (1);
-	if (my_atoll(argv[3], &args->timetoeat))
+	if (my_atoll(av[3], &args->timetoeat))
 		return (1);
-	if (my_atoll(argv[4], &args->timetosleep))
+	if (my_atoll(av[4], &args->timetosleep))
 		return (1);
 	if (ac == 6)
 	{
-		if (my_atoi(argv[5], &args->numtoeat))
+		if (my_atoi(av[5], &args->numtoeat))
 			return (1);
 	}
 	if (args->numofphilo == 0 || args->numtoeat == 0)
@@ -35,7 +35,7 @@ int	var_init(int ac, char **av, t_philo_p *args)
 	return (0);
 }
 
-int	philo_init(t_philo_run *philo_r, t_philo *args)
+int	philo_init(t_philo_run *philo_r, t_philo_p *args)
 {
 	int	i;
 

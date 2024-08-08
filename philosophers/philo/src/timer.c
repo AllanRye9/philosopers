@@ -21,7 +21,7 @@ t_msec	timestamp(void)
 	return (((long long)t.tv_sec * 1000) + ((long long)t.tv_usec / 1000));
 }
 
-void	ft_usleep(int ms)
+void	ft_usleep(t_msec ms)
 {
 	t_msec	t;
 
