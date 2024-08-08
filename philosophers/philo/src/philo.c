@@ -37,20 +37,51 @@ void	philo_join(t_philo_run *philo_r)
 	}
 }
 
+static void	ft_eating(t_philo_m *m)
+{
+	ft_printing(m, 0);
+	pthread_mutex_lock(m->secondfork);
+	ft_printing(m, 0);
+	ft_printing(m, 1);
+	m->die_time = timestamp() + m->p->timetodie + m->p->timetoeat;
+	ft_usleep(timestamp() + m->p->timetoeat);
+	if (m->p->numtoeat != -1)
+		m->times_eaten += 1;
+	pthread_mutex_unlock(m->secondfork);
+	pthread_mutex_unlock(m->first_fork);
+}
+
+static void	ft_sleeping(t_philo_m *m)
+{
+	ft_printing(m, 2);
+	ft_usleep(timestamp() + m->p->timetosleep);
+}
+
+static void	ft_thinking(t_philo_m *m)
+{
+	ft_printing(m, 3);
+}
+
+static void	ft_dying(t_philo_m *m)
+{
+	ft_usleep(m->die_time);
+	ft_printing(m, 4);
+}
+
 int	ft_table(t_philo_m *m)
 {
 	pthread_mutex_lock(m->first_fork);
-	if (philo_get_time() + m->p->timetoeat <= m->die_time
+	if (timestamp() + m->p->timetoeat <= m->die_time
 		&& (m->times_eaten < m->p->numtoeat || m->p->numtoeat == -1))
 		ft_eating(m);
 	else
 	{
 		pthread_mutex_unlock(m->first_fork);
-		if (philo_get_time() + m->p->timetoeat > m->die_time)
+		if (timestamp() + m->p->timetoeat > m->die_time)
 			ft_dying(m);
 		return (0);
 	}
-	if (philo_get_time() + m->p->timetosleep > m->die_time)
+	if (timestamp() + m->p->timetosleep > m->die_time)
 	{
 		m->die_time -= m->p->timetoeat;
 		ft_dying(m);
