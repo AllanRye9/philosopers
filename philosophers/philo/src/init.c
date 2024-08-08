@@ -46,7 +46,7 @@ int	philo_init(t_philo_run *philo_r, t_philo *args)
 	pthread_mutex_init(&philo_r->printing, NULL);
 	if (!philo_r->philos || !philo_r->threads)
 	{
-		clean_philo_r(philo_r);
+		free_all(philo_r);
 		return (1);
 	}
 	i = 0;
