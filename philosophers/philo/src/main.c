@@ -14,13 +14,19 @@
 
 int	main(int ac, char **av)
 {
-	t_philo_p args;
-	t_info	data;
+	t_philo_p 	args;
+	t_philo_run	run;
 
 	if (var_init(ac, av, &args))
 		return (display_error(), 0);
 	args.timestart = timestamp();
-	philo_init(&data);
-	free_all(&data);
+	philo_init(&run, &args);
+	if(args.numofphilo == 1)
+	{
+		ft_printing(philo_r.philos, 0);
+		u_sleep(args.timeatstart + args.timetodie);
+		printf("%lld %d died\n", philo_get_time() - args.timeatstart, 1);
+		return (0);
+	}
 	return (0);
 }
