@@ -13,42 +13,59 @@
 #ifndef PHILO_H
 # define PHILO_H
 
+# include <sys/time.h>
 # include <pthread.h>
 # include <stdio.h>
+# include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdbool.h>
-# include <sys/time.h>
 # include <limits.h>
+# include <stdbool.h>
 
-typedef struct s_philo
-{
-	int					n;
-	int					m_count;
-	bool				is_eating;
-	pthread_t			thread;
-	long int			last_ate;
-	struct s_info		*info;
-	pthread_mutex_t		*fork_r;
-	pthread_mutex_t		fork_l;
-}t_philo;
+typedef long long	t_msec;
 
-typedef struct s_info
+typedef struct s_philo_p
 {
-	int					p_eat;
-	int					n_philo;
-	int					t_die;
-	int					t_eat;
-	int					t_sleep;
-	int					nx_eat;
-	int					stop;
-	long int			t_start;
-	t_philo				*philo;
-	pthread_mutex_t		print;
-	pthread_mutex_t		m_stop;
-	pthread_mutex_t		m_eat;
-	pthread_mutex_t		dead;
-}t_info;
+	int			numofphilo;
+	t_msec		timetodie;
+	t_msec		timetoeat;
+	t_msec		timetosleep;
+	t_msec		timeatstart;
+	int			numtoeat;
+}	t_philo_p;
+
+typedef struct s_philo_m
+{
+	t_philo_p			*p;
+	int					id;
+	t_msec				die_time;
+	t_msec				eat_time;
+	pthread_mutex_t		left_fork;
+	pthread_mutex_t		*right_fork;
+	pthread_mutex_t		*first_fork;
+	pthread_mutex_t		*secondfork;
+	pthread_mutex_t		times_eaten_m;
+	int					times_eaten;
+	pthread_mutex_t		*pr;
+	struct s_philo_run	*data;
+}	t_philo_m;
+
+typedef struct s_philo_run
+{
+	bool			is_dead;
+	t_philo_m		*philos;
+	pthread_t		*threads;
+	int				count;
+	pthread_mutex_t	printing;
+}	t_philo_run;
+
+enum	e_print {
+	e_fork = 0,
+	e_eating = 1,
+	e_sleeping = 2,
+	e_thinking = 3,
+	e_dead = 4
+};
 
 int				is_digit(char c);
 int				is_num(char **av);
