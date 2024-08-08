@@ -12,6 +12,10 @@
 
 #include "philo.h"
 
+void display_error(void)
+{
+	printf("Invalid Argument or Format\n");
+}
 void	free_all(t_info *data)
 {
 	int	i;
