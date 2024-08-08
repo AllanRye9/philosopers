@@ -23,9 +23,14 @@ t_msec	timestamp(void)
 
 void	ft_usleep(int ms)
 {
-	long int	time;
+	t_msec	t;
 
-	time = timestamp();
-	while (timestamp() - time < ms)
-		usleep(ms / 10);
+	t = timestamp();
+	while (ms - t > 5)
+	{
+		usleep(1000 * (ms - t - 5));
+		t = timestamp();
+	}
+	while (ms > t)
+		t = timestamp();
 }
