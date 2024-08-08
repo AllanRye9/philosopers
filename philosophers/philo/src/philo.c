@@ -25,6 +25,18 @@ void	philo_create(t_philo_run *philo_r)
 	}
 }
 
+void	philo_join(t_philo_run *philo_r)
+{
+	int	i;
+
+	i = 0;
+	while (i < philo_r->count)
+	{
+		pthread_join(philo_r->threads[i], NULL);
+		i++;
+	}
+}
+
 void	*check_death(void *p)
 {
 	t_philo	*philo;
