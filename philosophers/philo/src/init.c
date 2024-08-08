@@ -12,27 +12,26 @@
 
 #include "philo.h"
 
-int	var_init(t_info *data, char **av)
+int	var_init(int ac, char **av, t_philo *args)
 {
-	if (is_num(av))
-		return (printf("Invalid Arguments\n"), 1);
-	data->n_philo = ft_atoi(av[1]);
-	data->t_die = ft_atoi(av[2]);
-	data->t_eat = ft_atoi(av[3]);
-	data->t_sleep = ft_atoi(av[4]);
-	data->nx_eat = 0;
-	if (av[5])
-		data->nx_eat = ft_atoi(av[5]);
-	if (av[5] && data->nx_eat == 0)
+	args->numtoeat = -1;
+	if (ac != 6 && ac != 5)
 		return (1);
-	pthread_mutex_init(&data->print, NULL);
-	pthread_mutex_init(&data->m_stop, NULL);
-	pthread_mutex_init(&data->m_eat, NULL);
-	pthread_mutex_init(&data->dead, NULL);
-	data->stop = 0;
-	data->philo = malloc(sizeof(t_philo) * data->n_philo);
-	if (!data->philo)
-		return (2);
+	if (my_atoi(av[1], &args->numofphilo))
+		return (1);
+	if (my_atoll(argv[2], &args->timetodie))
+		return (1);
+	if (my_atoll(argv[3], &args->timetoeat))
+		return (1);
+	if (my_atoll(argv[4], &args->timetosleep))
+		return (1);
+	if (ac == 6)
+	{
+		if (my_atoi(argv[5], &args->numtoeat))
+			return (1);
+	}
+	if (args->numofphilo == 0 || args->numtoeat == 0)
+		return (1);
 	return (0);
 }
 
