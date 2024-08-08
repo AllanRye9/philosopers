@@ -82,4 +82,5 @@ void			*check_death(void *p);
 void			take_fork(t_philo *philo);
 void			philo_eat(t_philo *philo);
 void			*philo_life(void *p);
+void			init_philos(t_philo_m *philos, t_philo_p *args, int i);
 #endif
