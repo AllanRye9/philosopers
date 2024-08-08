@@ -50,6 +50,7 @@ typedef struct s_info
 	pthread_mutex_t		dead;
 }t_info;
 
+void				display_error(void);
 int				is_digit(char c);
 int				is_num(char **av);
 int				var_init(t_info *data, char **av);
