@@ -18,7 +18,7 @@ int	main(int ac, char **av)
 	t_info	data;
 
 	if (init_arg(ac, av, &args))
-		return (0);
+		return (display_error(), 0);
 	if (var_init(&data, av) == 1)
 		return (free_all(&data), 0);
 	philo_init(&data);
