@@ -24,7 +24,7 @@ int	main(int ac, char **av)
 	if(args.numofphilo == 1)
 	{
 		ft_printing(philo_r.philos, 0);
-		u_sleep(args.timeatstart + args.timetodie);
+		ft_usleep(args.timeatstart + args.timetodie);
 		printf("%lld %d died\n", philo_get_time() - args.timeatstart, 1);
 		return (0);
 	}
