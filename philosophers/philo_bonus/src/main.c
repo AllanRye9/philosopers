@@ -12,23 +12,26 @@
 
 #include "philo_bonus.h"
 
-int	main(int ac, char **av)
+int	main(int argc, char **argv)
 {
-	t_philo_p 	args;
-	t_philo_m	philo_run;
+	t_philo_p	inpparams;
+	t_philo_m	philos;
 
-	if (var_init(ac, av, &args))
-		return (display_error(), 0);
-	args.timeatstart = timestamp();
-	philo_init(&philo_run, &args);
-	if(args.numofphilo == 1)
+	if (save_variables(argc, argv, &inpparams))
 	{
-		printf("%lld %d %s\n", (long long)0, 1, "has taken a fork");
-		ft_usleep(args.timeatstart + args.timetodie);
-		printf("%lld %d died\n", timestamp() - args.timeatstart, 1);
+		usage();
 		return (0);
 	}
-	philo_create(&philo_run, &args);
+	inpparams.timeatstart = philo_get_time();
+	philo_r_init(&philos, &inpparams);
+	if (inpparams.numofphilo == 1)
+	{
+		printf("%lld %d %s\n", (long long)0, 1, "has taken a fork");
+		u_wait(inpparams.timeatstart + inpparams.timetodie);
+		printf("%lld %d died\n", philo_get_time() - inpparams.timeatstart, 1);
+		return (0);
+	}
+	philo_r_create(&philos, &inpparams);
 	sem_unlink("/forks");
 	sem_unlink("/pr");
 	sem_unlink("/dead");

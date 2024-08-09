@@ -12,7 +12,7 @@
 
 #include "philo_bonus.h"
 
-static int	check_int(int sign, int *n)
+int	check_int(int sign, int *n)
 {
 	if (!sign && *n == INT_MIN)
 		return (2);
@@ -48,7 +48,7 @@ int	my_atoi(const char *str, int *n)
 	return (1);
 }
 
-static int	check_ll(int sign, t_msec *n)
+int	check_ll(int sign, t_msec *n)
 {
 	if (!sign && *n == LLONG_MIN)
 		return (2);

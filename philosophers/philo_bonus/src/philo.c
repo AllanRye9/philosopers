@@ -12,58 +12,64 @@
 
 #include "philo_bonus.h"
 
-void	*check_death(void *m)
+void	init_philos(t_philo_m *philos, t_philo_p *inpparams, int i)
 {
-	t_philo_m	*philos;
-
-	philos = (t_philo_m *)m;
-	while (1)
-	{
-		if (is_finished(m))
-		{
-			sem_unlink("/finished");
-			kill(0, SIGKILL);
-			return (NULL);
-		}
-		else
-		{
-			sem_wait(philos->times_eaten_s);
-			if (philos->times_eaten == philos->p->numtoeat)
-			{
-				sem_post(philos->times_eaten_s);
-				return (NULL);
-			}
-			sem_post(philos->times_eaten_s);
-		}
-	}
+	philos->id = i;
+	philos->times_eaten = 0;
+	philos->p = inpparams;
 }
 
-void	philo_create(t_philo_m *philos, t_philo_p *args)
+int	philo_r_init(t_philo_m *philos, t_philo_p *inpparams)
 {
-	int			i;
-	pid_t		id;
-
-	i = 0;
-	while (i < args->numofphilo)
-	{
-		id = fork();
-		if (id == 0)
-		{
-			init_philos(philos, args, i);
-			philo_routine(philos);
-			return ;
-		}
-		if (id != -1)
-			i++;
-	}
-	if (id != 0)
-		philo_r_wait(args);
-	sem_close(philos->dead);
-	sem_close(philos->pr);
-	sem_close(philos->forks);
-	sem_close(philos->finished);
+	sem_unlink("/forks");
+	sem_unlink("/pr");
+	sem_unlink("/dead");
+	sem_unlink("/times_eaten_s");
+	sem_unlink("/finished");
+	philos->forks = sem_open("/forks", O_CREAT, 0644, inpparams->numofphilo);
+	philos->times_eaten_s = sem_open("/times_eaten_s", O_CREAT, 0644, 1);
+	philos->dead = sem_open("/dead", O_CREAT, 0644, 1);
+	philos->pr = sem_open("/pr", O_CREAT, 0644, 1);
+	sem_unlink("/forks");
+	sem_unlink("/pr");
+	sem_unlink("/dead");
+	sem_unlink("/times_eaten_s");
+	return (0);
 }
 
+void	ft_printing(t_philo_m *m, enum e_print print)
+{
+	const char	*msg[] = {
+		"has taken a fork", "is eating", "is sleeping",
+		"is thinking", "died"};
+
+	if (is_finished(m))
+		return ;
+	sem_wait(m->dead);
+	if (print == 4)
+		m->finished = sem_open("/finished", O_CREAT, 0644, 9999);
+	sem_post(m->dead);
+	sem_wait(m->pr);
+	printf("%lld %d %s\n", philo_get_time() - m->p->timeatstart, m->id + 1,
+		msg[(int)print]);
+	sem_post(m->pr);
+}
+
+int	is_finished(t_philo_m *m)
+{
+	sem_t	*finished;
+
+	sem_wait(m->dead);
+	finished = sem_open("/finished", 0);
+	if (finished == SEM_FAILED)
+	{
+		sem_post(m->dead);
+		return (0);
+	}
+	sem_close(finished);
+	sem_post(m->dead);
+	return (1);
+}
 
 void	ft_eating(t_philo_m *m)
 {
@@ -72,15 +78,15 @@ void	ft_eating(t_philo_m *m)
 		sem_wait(m->forks);
 		ft_printing(m, 0);
 		ft_printing(m, 1);
-		if (timestamp() + m->p->timetoeat > m->die_time)
+		if (philo_get_time() + m->p->timetoeat > m->die_time)
 		{
 			ft_dying(m);
 			sem_post(m->forks);
 			sem_post(m->forks);
 			return ;
 		}
-		m->die_time = timestamp() + m->p->timetodie + m->p->timetoeat;
-		ft_usleep(timestamp() + m->p->timetoeat);
+		m->die_time = philo_get_time() + m->p->timetodie + m->p->timetoeat;
+		u_wait(philo_get_time() + m->p->timetoeat);
 		{
 			sem_wait(m->times_eaten_s);
 			if (m->p->numtoeat != -1)
@@ -91,3 +97,20 @@ void	ft_eating(t_philo_m *m)
 	}
 	sem_post(m->forks);
 }
+
+void	ft_sleeping(t_philo_m *m)
+{
+	ft_printing(m, 2);
+	u_wait(philo_get_time() + m->p->timetosleep);
+}
+
+void	ft_thinking(t_philo_m *m)
+{
+	ft_printing(m, 3);
+}
+
+void	ft_dying(t_philo_m *m)
+{
+	u_wait(m->die_time);
+	ft_printing(m, 4);
+} 
