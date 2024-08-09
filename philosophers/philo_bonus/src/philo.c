@@ -12,21 +12,21 @@
 
 #include "philo_bonus.h"
 
-void	init_philos(t_philo_m *philos, t_philo_p *inpparams, int i)
+void	init_philos(t_philo_m *philos, t_philo_p *args, int i)
 {
 	philos->id = i;
 	philos->times_eaten = 0;
-	philos->p = inpparams;
+	philos->p = args;
 }
 
-int	philo_r_init(t_philo_m *philos, t_philo_p *inpparams)
+int	philo_r_init(t_philo_m *philos, t_philo_p *args)
 {
 	sem_unlink("/forks");
 	sem_unlink("/pr");
 	sem_unlink("/dead");
 	sem_unlink("/times_eaten_s");
 	sem_unlink("/finished");
-	philos->forks = sem_open("/forks", O_CREAT, 0644, inpparams->numofphilo);
+	philos->forks = sem_open("/forks", O_CREAT, 0644, args->numofphilo);
 	philos->times_eaten_s = sem_open("/times_eaten_s", O_CREAT, 0644, 1);
 	philos->dead = sem_open("/dead", O_CREAT, 0644, 1);
 	philos->pr = sem_open("/pr", O_CREAT, 0644, 1);
@@ -97,20 +97,3 @@ void	ft_eating(t_philo_m *m)
 	}
 	sem_post(m->forks);
 }
-
-void	ft_sleeping(t_philo_m *m)
-{
-	ft_printing(m, 2);
-	u_wait(philo_get_time() + m->p->timetosleep);
-}
-
-void	ft_thinking(t_philo_m *m)
-{
-	ft_printing(m, 3);
-}
-
-void	ft_dying(t_philo_m *m)
-{
-	u_wait(m->die_time);
-	ft_printing(m, 4);
-} 

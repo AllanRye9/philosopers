@@ -14,14 +14,14 @@
 
 int	main(int ac, char **av)
 {
-	t_philo_p 	args;
+	t_philo_p	args;
 	t_philo_run	philo_run;
 
 	if (var_init(ac, av, &args))
 		return (display_error(), 0);
 	args.timeatstart = timestamp();
 	philo_init(&philo_run, &args);
-	if(args.numofphilo == 1)
+	if (args.numofphilo == 1)
 	{
 		ft_printing(philo_run.philos, 0);
 		ft_usleep(args.timeatstart + args.timetodie);

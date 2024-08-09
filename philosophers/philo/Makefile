@@ -1,6 +1,6 @@
 NAME = philo
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g3
+FLAGS = -Wall -Wextra -Werror
 INCLUDE = -I.
 LTHREAD = -lpthread
 SRC = 	src/philo.c \
@@ -9,7 +9,8 @@ SRC = 	src/philo.c \
 		src/timer.c \
 		src/clear.c \
 		src/init.c  \
-		src/philo_init.c
+		src/philo_init.c \
+		src/philo_life.c
 OBJ = $(SRC:.c=.o)
 %.o : %.c
 		$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@

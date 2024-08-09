@@ -58,29 +58,23 @@ enum	e_print {
 	e_dead = 4
 };
 
-//time.c
 t_msec	philo_get_time(void);
 void	u_wait(t_msec waiting_time);
-//my_atoi.c
 int		my_atoi(const char *str, int *n);
 int		check_int(int sign, int *n);
-//my_atoll.c
 int		my_atoll(const char *str, t_msec *n);
 int		check_ll(int sign, t_msec *n);
-//philo_utils.c
-void	init_philos(t_philo_m *philos, t_philo_p *inpparams, int i);
-int		philo_r_init(t_philo_m *philos, t_philo_p *inpparams);
+void	init_philos(t_philo_m *philos, t_philo_p *args, int i);
+int		philo_r_init(t_philo_m *philos, t_philo_p *args);
 void	ft_printing(t_philo_m *m, enum e_print print);
 int		is_finished(t_philo_m *m);
-int		save_variables(int argc, char **argv, t_philo_p *inpparams);
-//philo_run.c
+int		save_variables(int ac, char **av, t_philo_p *args);
 int		ft_table(t_philo_m *m);
 void	*philo_routine(t_philo_m *m);
-void	philo_r_create(t_philo_m *philos, t_philo_p *inpparams);
-void	philo_r_wait(t_philo_p *inpparams);
+void	philo_r_create(t_philo_m *philos, t_philo_p *args);
+void	philo_r_wait(t_philo_p *args);
 void	*check_death(void *m);
 void	usage(void);
-//philo_actions.c
 void	ft_eating(t_philo_m *m);
 void	ft_sleeping(t_philo_m *m);
 void	ft_thinking(t_philo_m *m);

@@ -54,18 +54,18 @@ void	*philo_routine(t_philo_m *m)
 	return (NULL);
 }
 
-void	philo_r_create(t_philo_m *philos, t_philo_p *inpparams)
+void	philo_r_create(t_philo_m *philos, t_philo_p *args)
 {
 	int			i;
 	pid_t		id;
 
 	i = 0;
-	while (i < inpparams->numofphilo)
+	while (i < args->numofphilo)
 	{
 		id = fork();
 		if (id == 0)
 		{
-			init_philos(philos, inpparams, i);
+			init_philos(philos, args, i);
 			philo_routine(philos);
 			return ;
 		}
@@ -73,19 +73,19 @@ void	philo_r_create(t_philo_m *philos, t_philo_p *inpparams)
 			i++;
 	}
 	if (id != 0)
-		philo_r_wait(inpparams);
+		philo_r_wait(args);
 	sem_close(philos->dead);
 	sem_close(philos->pr);
 	sem_close(philos->forks);
 	sem_close(philos->finished);
 }
 
-void	philo_r_wait(t_philo_p *inpparams)
+void	philo_r_wait(t_philo_p *args)
 {
 	int	i;
 
 	i = 0;
-	while (i < inpparams->numofphilo)
+	while (i < args->numofphilo)
 	{
 		waitpid(-1, NULL, 0);
 		i++;

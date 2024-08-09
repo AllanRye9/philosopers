@@ -72,7 +72,7 @@ int				var_init(int ac, char **av, t_philo_p *args);
 int				ft_table(t_philo_m *m);
 int				my_atoll(const char *str, t_msec *n);
 int				philo_init(t_philo_run *philo_r, t_philo_p *args);
-t_msec				timestamp(void);
+t_msec			timestamp(void);
 void			ft_eating(t_philo_m *m);
 void			ft_sleeping(t_philo_m *m);
 void			display_error(void);

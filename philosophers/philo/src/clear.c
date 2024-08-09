@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-void display_error(void)
+void	display_error(void)
 {
 	printf("Invalid Argument or Format\n");
 }

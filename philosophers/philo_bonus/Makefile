@@ -1,6 +1,6 @@
 NAME = philo_bonus
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g3
+FLAGS = -Wall -Wextra -Werror
 INCLUDE = -I.
 LTHREAD = -lpthread
 SRC = 	src/philo.c \

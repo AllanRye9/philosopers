@@ -12,25 +12,25 @@
 
 #include "philo_bonus.h"
 
-int	save_variables(int argc, char **argv, t_philo_p *inpparams)
+int	save_variables(int ac, char **av, t_philo_p *args)
 {
-	inpparams->numtoeat = -1;
-	if (argc != 6 && argc != 5)
+	args->numtoeat = -1;
+	if (ac != 6 && ac != 5)
 		return (1);
-	if (my_atoi(argv[1], &inpparams->numofphilo))
+	if (my_atoi(av[1], &args->numofphilo))
 		return (1);
-	if (my_atoll(argv[2], &inpparams->timetodie))
+	if (my_atoll(av[2], &args->timetodie))
 		return (1);
-	if (my_atoll(argv[3], &inpparams->timetoeat))
+	if (my_atoll(av[3], &args->timetoeat))
 		return (1);
-	if (my_atoll(argv[4], &inpparams->timetosleep))
+	if (my_atoll(av[4], &args->timetosleep))
 		return (1);
-	if (argc == 6)
+	if (ac == 6)
 	{
-		if (my_atoi(argv[5], &inpparams->numtoeat))
+		if (my_atoi(av[5], &args->numtoeat))
 			return (1);
 	}
-	if (inpparams->numofphilo == 0 || inpparams->numtoeat == 0)
+	if (args->numofphilo == 0 || args->numtoeat == 0)
 		return (1);
 	return (0);
 }
