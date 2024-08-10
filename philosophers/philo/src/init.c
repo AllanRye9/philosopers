@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-int	var_init(int ac, char **av, t_philo_p *args)
+int	var_init(int ac, char **av, t_p *args)
 {
 	args->numtoeat = -1;
 	if (ac != 6 && ac != 5)
@@ -35,11 +35,11 @@ int	var_init(int ac, char **av, t_philo_p *args)
 	return (0);
 }
 
-int	philo_init(t_philo_run *philo_r, t_philo_p *args)
+int	philo_init(t_p_main *philo_r, t_p *args)
 {
 	int	i;
 
-	philo_r->philos = malloc(sizeof(t_philo_m) * args->numofphilo);
+	philo_r->philos = malloc(sizeof(t_p_mx) * args->numofphilo);
 	philo_r->threads = malloc(sizeof(pthread_t) * args->numofphilo);
 	philo_r->count = args->numofphilo;
 	philo_r->is_dead = 0;

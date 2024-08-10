@@ -12,7 +12,7 @@
 
 #include "philo_bonus.h"
 
-int	save_variables(int ac, char **av, t_philo_p *args)
+int	initialization(int ac, char **av, t_p *args)
 {
 	args->numtoeat = -1;
 	if (ac != 6 && ac != 5)

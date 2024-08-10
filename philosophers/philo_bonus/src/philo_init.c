@@ -11,24 +11,24 @@
 /* ************************************************************************** */
 #include "philo_bonus.h"
 
-int	ft_table(t_philo_m *m)
+int	ft_table(t_p_mx *m)
 {
 	if (is_finished(m))
 		return (0);
 	sem_wait(m->forks);
-	if (philo_get_time() <= m->die_time
+	if (timestamp() <= m->die_time
 		&& (m->times_eaten < m->p->numtoeat || m->p->numtoeat == -1))
 		ft_eating(m);
 	else
 	{
 		sem_post(m->forks);
-		if (philo_get_time() + m->p->timetoeat > m->die_time)
+		if (timestamp() + m->p->timetoeat > m->die_time)
 			ft_dying(m);
 		return (0);
 	}
 	if (is_finished(m))
 		return (0);
-	if (philo_get_time() + m->p->timetosleep > m->die_time)
+	if (timestamp() + m->p->timetosleep > m->die_time)
 	{
 		m->die_time -= m->p->timetoeat;
 		ft_dying(m);
@@ -40,21 +40,21 @@ int	ft_table(t_philo_m *m)
 	return (1);
 }
 
-void	*philo_routine(t_philo_m *m)
+void	*schedule(t_p_mx *m)
 {
 	pthread_t	thread;
 
 	pthread_create(&thread, NULL, check_death, (void *)m);
-	m->die_time = m->p->timeatstart + m->p->timetodie;
+	m->die_time = m->p->start + m->p->timetodie;
 	if (m->id % 2 == 0)
-		u_wait(philo_get_time() + m->p->timetoeat);
+		ft_usleep(timestamp() + m->p->timetoeat);
 	while (ft_table(m) != 0)
 		;
 	pthread_join(thread, NULL);
 	return (NULL);
 }
 
-void	philo_r_create(t_philo_m *philos, t_philo_p *args)
+void	create_philo(t_p_mx *philos, t_p *args)
 {
 	int			i;
 	pid_t		id;
@@ -66,7 +66,7 @@ void	philo_r_create(t_philo_m *philos, t_philo_p *args)
 		if (id == 0)
 		{
 			init_philos(philos, args, i);
-			philo_routine(philos);
+			schedule(philos);
 			return ;
 		}
 		if (id != -1)
@@ -80,7 +80,7 @@ void	philo_r_create(t_philo_m *philos, t_philo_p *args)
 	sem_close(philos->finished);
 }
 
-void	philo_r_wait(t_philo_p *args)
+void	philo_r_wait(t_p *args)
 {
 	int	i;
 
@@ -94,9 +94,9 @@ void	philo_r_wait(t_philo_p *args)
 
 void	*check_death(void *m)
 {
-	t_philo_m	*philos;
+	t_p_mx	*philos;
 
-	philos = (t_philo_m *)m;
+	philos = (t_p_mx *)m;
 	while (1)
 	{
 		if (is_finished(m))

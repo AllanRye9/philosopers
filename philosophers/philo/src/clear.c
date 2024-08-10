@@ -17,7 +17,7 @@ void	display_error(void)
 	printf("Invalid Argument or Format\n");
 }
 
-void	free_all(t_philo_run *philo_r)
+void	free_all(t_p_main *philo_r)
 {
 	int	i;
 

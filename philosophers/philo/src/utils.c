@@ -21,7 +21,7 @@ static int	check_int(int sign, int *n)
 	return (0);
 }
 
-static int len(const char *s)
+static int neg(const char *s)
 {
 	if(s[0] =='-')
 		return (1);
@@ -34,11 +34,8 @@ int	my_atoi(const char *str, int *n)
 
 	sign = 0;
 	*n = 0;
-	if (len(str))
-	{
-		printf("Invalid Argument or Format\n");
-		exit(1);
-	}
+	if (neg(str))
+		return (2);
 	if (*str == '+')
 		str++;
 	if (*str < '0' && *str > '9')
@@ -56,7 +53,7 @@ int	my_atoi(const char *str, int *n)
 	return (1);
 }
 
-static int	check_ll(int sign, t_msec *n)
+static int	check_ll_type(int sign, t_msec *n)
 {
 	if (!sign && *n == LLONG_MIN)
 		return (2);
@@ -79,7 +76,7 @@ int	my_atoll(const char *str, t_msec *n)
 	{
 		*n *= 10;
 		*n += *str - '0';
-		if (check_ll(sign, n))
+		if (check_ll_type(sign, n))
 			return (2);
 		str++;
 	}

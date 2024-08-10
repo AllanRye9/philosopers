@@ -14,22 +14,22 @@
 
 int	main(int ac, char **av)
 {
-	t_philo_p	args;
-	t_philo_run	philo_run;
+	t_p	args;
+	t_p_main	p_main;
 
 	if (var_init(ac, av, &args))
 		return (display_error(), 0);
-	args.timeatstart = timestamp();
-	philo_init(&philo_run, &args);
+	args.start = timestamp();
+	philo_init(&p_main, &args);
 	if (args.numofphilo == 1)
 	{
-		ft_printing(philo_run.philos, 0);
-		ft_usleep(args.timeatstart + args.timetodie);
-		printf("%lld %d died\n", timestamp() - args.timeatstart, 1);
+		ft_printing(p_main.philos, 0);
+		ft_usleep(args.start + args.timetodie);
+		printf("%lld %d died\n", timestamp() - args.start, 1);
 		return (0);
 	}
-	philo_create(&philo_run);
-	philo_join(&philo_run);
-	free_all(&philo_run);
+	philo_create(&p_main);
+	philo_join(&p_main);
+	free_all(&p_main);
 	return (0);
 }

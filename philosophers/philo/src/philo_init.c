@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "philo.h"
 
-void	init_philos(t_philo_m *philos, t_philo_p *args, int i)
+void	init_philos(t_p_mx *philos, t_p *args, int i)
 {
 	philos->id = i;
 	philos->times_eaten = 0;
@@ -31,7 +31,7 @@ void	init_philos(t_philo_m *philos, t_philo_p *args, int i)
 	}
 }
 
-void	ft_printing(t_philo_m *m, enum e_print print)
+void	ft_printing(t_p_mx *m, enum e_print print)
 {
 	const char	*msg[] = {
 		"has taken a fork", "is eating", "is sleeping",
@@ -40,7 +40,7 @@ void	ft_printing(t_philo_m *m, enum e_print print)
 	pthread_mutex_lock(m->pr);
 	if (m->data->is_dead != true && print == 4)
 	{
-		printf("%lld %d %s\n", timestamp() - m->p->timeatstart, m->id + 1,
+		printf("%lld %d %s\n", timestamp() - m->p->start, m->id + 1,
 			msg[(int)print]);
 		m->data->is_dead = true;
 		pthread_mutex_unlock(m->pr);
@@ -53,7 +53,7 @@ void	ft_printing(t_philo_m *m, enum e_print print)
 	}
 	else
 	{
-		printf("%lld %d %s\n", timestamp() - m->p->timeatstart, m->id + 1,
+		printf("%lld %d %s\n", timestamp() - m->p->start, m->id + 1,
 			msg[(int)print]);
 		pthread_mutex_unlock(m->pr);
 	}
@@ -61,10 +61,10 @@ void	ft_printing(t_philo_m *m, enum e_print print)
 
 void	*philo_life(void *p)
 {
-	t_philo_m	*m;
+	t_p_mx	*m;
 
-	m = (t_philo_m *)p;
-	m->die_time = m->p->timeatstart + m->p->timetodie;
+	m = (t_p_mx *)p;
+	m->die_time = m->p->start + m->p->timetodie;
 	if (m->id % 2 == 0)
 		ft_usleep(timestamp() + m->p->timetoeat);
 	while (1)

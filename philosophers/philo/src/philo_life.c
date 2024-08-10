@@ -12,24 +12,24 @@
 
 #include "philo.h"
 
-void	ft_thinking(t_philo_m *m)
+void	ft_thinking(t_p_mx *m)
 {
 	ft_printing(m, 3);
 }
 
-void	ft_dying(t_philo_m *m)
+void	ft_dying(t_p_mx *m)
 {
 	ft_usleep(m->die_time);
 	ft_printing(m, 4);
 }
 
-void	ft_sleeping(t_philo_m *m)
+void	ft_sleeping(t_p_mx *m)
 {
 	ft_printing(m, 2);
 	ft_usleep(timestamp() + m->p->timetosleep);
 }
 
-int	ft_table(t_philo_m *m)
+int	ft_table(t_p_mx *m)
 {
 	pthread_mutex_lock(m->first_fork);
 	if (timestamp() + m->p->timetoeat <= m->die_time

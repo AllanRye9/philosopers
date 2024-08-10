@@ -12,12 +12,12 @@
 
 #include "philo.h"
 
-void	*philo_routine(void *philo)
+void	*schedule(void *philo)
 {
-	t_philo_m	*m;
+	t_p_mx	*m;
 
-	m = (t_philo_m *)philo;
-	m->die_time = m->p->timeatstart + m->p->timetodie;
+	m = (t_p_mx *)philo;
+	m->die_time = m->p->start + m->p->timetodie;
 	if (m->id % 2 == 0)
 		ft_usleep(timestamp() + m->p->timetoeat);
 	while (1)
@@ -28,20 +28,20 @@ void	*philo_routine(void *philo)
 	return (NULL);
 }
 
-void	philo_create(t_philo_run *philo_r)
+void	philo_create(t_p_main *philo_r)
 {
 	int	i;
 
 	i = 0;
 	while (i < philo_r->count)
 	{
-		pthread_create(&philo_r->threads[i], NULL, philo_routine,
+		pthread_create(&philo_r->threads[i], NULL, schedule,
 			(void *)&philo_r->philos[i]);
 		i++;
 	}
 }
 
-void	philo_join(t_philo_run *philo_r)
+void	philo_join(t_p_main *philo_r)
 {
 	int	i;
 
@@ -53,7 +53,7 @@ void	philo_join(t_philo_run *philo_r)
 	}
 }
 
-void	ft_eating(t_philo_m *m)
+void	ft_eating(t_p_mx *m)
 {
 	ft_printing(m, 0);
 	pthread_mutex_lock(m->secondfork);
