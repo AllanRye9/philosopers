@@ -9,12 +9,14 @@ SRC = 	src/philo.c \
 		src/timer.c \
 		src/clear.c \
 		src/init.c  \
-		src/philo_init.c
+		src/philo_init.c \
+		src/philo_life.c
+
 OBJ = $(SRC:.c=.o)
 %.o : %.c
 		$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@
 $(NAME) : $(OBJ) 
-		$(CC) $(FLAGS) $(OBJ) -o $(NAME) $(LTHREAD)
+		$(CC) $(FLAGS) $(OBJ)  $(LTHREAD) -o $(NAME)
 all : $(NAME)
 bonus : all
 clean :

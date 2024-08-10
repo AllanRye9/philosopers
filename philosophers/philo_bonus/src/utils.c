@@ -21,15 +21,25 @@ int	check_int(int sign, int *n)
 	return (0);
 }
 
+static int len(const char *s)
+{
+	if(s[0] =='-')
+		return (1);
+	return (0);
+}
+
 int	my_atoi(const char *str, int *n)
 {
 	int	sign;
 
 	sign = 0;
 	*n = 0;
-	if (*str == '-')
-		sign = 1;
-	if (*str == '-' || *str == '+')
+	if (len(str))
+	{
+		printf("Invalid Argument or Format\n");
+		exit(1);
+	}
+	if (*str == '+')
 		str++;
 	if (*str < '0' && *str > '9')
 		return (-1);
@@ -41,8 +51,6 @@ int	my_atoi(const char *str, int *n)
 			return (2);
 		str++;
 	}
-	if (sign)
-		*n *= -1;
 	if (*str == '\0')
 		return (0);
 	return (1);
