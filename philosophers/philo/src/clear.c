@@ -12,22 +12,22 @@
 
 #include "philo.h"
 
-void	display_error(void)
+void	v_error(void)
 {
 	printf("Invalid Argument or Format\n");
 }
 
-void	free_all(t_p_main *philo_r)
+void	v_free_all(t_p_main *p)
 {
 	int	i;
 
 	i = -1;
-	while (++i < philo_r->count)
+	while (++i < p->count)
 	{
-		pthread_mutex_destroy(&philo_r->philos[i].times_eaten_m);
-		pthread_mutex_destroy(&philo_r->philos[i].left_fork);
+		pthread_mutex_destroy(&p->philos[i].meals_eaten_m);
+		pthread_mutex_destroy(&p->philos[i].left_fork);
 	}
-	pthread_mutex_destroy(&philo_r->printing);
-	free(philo_r->philos);
-	free(philo_r->threads);
+	pthread_mutex_destroy(&p->printing);
+	free(p->philos);
+	free(p->threads);
 }

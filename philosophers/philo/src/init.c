@@ -12,50 +12,49 @@
 
 #include "philo.h"
 
-int	var_init(int ac, char **av, t_p *args)
+int	i_init_args(int ac, char **av, t_p *a)
 {
-	args->numtoeat = -1;
+	a->n_meals_toeat = -1;
 	if (ac != 6 && ac != 5)
 		return (1);
-	if (my_atoi(av[1], &args->numofphilo))
+	if (i_atoi(av[1], &a->numofphilo))
 		return (1);
-	if (my_atoll(av[2], &args->timetodie))
+	if (i_atoll(av[2], &a->timetodie))
 		return (1);
-	if (my_atoll(av[3], &args->timetoeat))
+	if (i_atoll(av[3], &a->timetoeat))
 		return (1);
-	if (my_atoll(av[4], &args->timetosleep))
+	if (i_atoll(av[4], &a->timetosleep))
 		return (1);
 	if (ac == 6)
 	{
-		if (my_atoi(av[5], &args->numtoeat))
+		if (i_atoi(av[5], &a->n_meals_toeat))
 			return (1);
 	}
-	if (args->numofphilo == 0 || args->numtoeat == 0)
+	if (a->numofphilo == 0 || a->n_meals_toeat == 0)
 		return (1);
 	return (0);
 }
 
-int	philo_init(t_p_main *philo_r, t_p *args)
+int	i_philo_alloc(t_p_main *p, t_p *a)
 {
 	int	i;
 
-	philo_r->philos = malloc(sizeof(t_p_mx) * args->numofphilo);
-	philo_r->threads = malloc(sizeof(pthread_t) * args->numofphilo);
-	philo_r->count = args->numofphilo;
-	philo_r->is_dead = 0;
-	pthread_mutex_init(&philo_r->printing, NULL);
-	if (!philo_r->philos || !philo_r->threads)
+	p->philos = malloc(sizeof(t_p_mx) * a->numofphilo);
+	p->threads = malloc(sizeof(pthread_t) * a->numofphilo);
+	p->count = a->numofphilo;
+	p->is_dead = 0;
+	pthread_mutex_init(&p->printing, NULL);
+	if (!p->philos || !p->threads)
 	{
-		free_all(philo_r);
+		v_free_all(p);
 		return (1);
 	}
-	i = 0;
-	while (i < args->numofphilo)
+	i = -1;
+	while (++i < a->numofphilo)
 	{
-		philo_r->philos[i].pr = &philo_r->printing;
-		philo_r->philos[i].data = philo_r;
-		init_philos(&philo_r->philos[i], args, i);
-		i++;
+		p->philos[i].pr = &p->printing;
+		p->philos[i].data = p;
+		v_forking(&p->philos[i], a, i);
 	}
 	return (0);
 }

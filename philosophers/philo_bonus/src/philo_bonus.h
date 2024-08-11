@@ -33,7 +33,7 @@ typedef struct s_philo_p
 	t_msec		timetoeat;
 	t_msec		timetosleep;
 	t_msec		start;
-	int			numtoeat;
+	int			n_meals_toeat;
 }	t_p;
 
 typedef struct s_philo_m
@@ -44,37 +44,38 @@ typedef struct s_philo_m
 	sem_t				*forks;
 	sem_t				*finished;
 	sem_t				*dead;
-	sem_t				*times_eaten_s;
-	int					times_eaten;
+	sem_t				*meals_eaten_s;
+	int					meals_eaten;
 	sem_t				*pr;
 }	t_p_mx;
 
-enum	e_print {
+enum	ev_print
+{
 	e_fork = 0,
-	e_eating = 1,
-	e_sleeping = 2,
-	e_thinking = 3,
+	ev_eating = 1,
+	ev_sleeping = 2,
+	ev_thinking = 3,
 	e_dead = 4
 };
 
-t_msec	timestamp(void);
-void	ft_usleep(t_msec waiting_time);
-int		my_atoi(const char *str, int *n);
-int		my_atoll(const char *str, t_msec *n);
-void	init_philos(t_p_mx *philos, t_p *args, int i);
-int		semphonize(t_p_mx *philos, t_p *args);
-void	ft_printing(t_p_mx *m, enum e_print print);
+t_msec	ll_timestamp(void);
+void	v_usleep(t_msec s);
+int		i_atoi(const char *str, int *n);
+int		i_atoll(const char *str, t_msec *n);
+void	v_forking_process(t_p_mx *philos, t_p *a, int i);
+int		semphonize(t_p_mx *philos, t_p *a);
+void	v_print(t_p_mx *m, enum ev_print print);
 int		is_finished(t_p_mx *m);
-int		initialization(int ac, char **av, t_p *args);
-int		ft_table(t_p_mx *m);
-void	*schedule(t_p_mx *m);
-void	create_philo(t_p_mx *philos, t_p *args);
-void	philo_r_wait(t_p *args);
+int		initialization(int ac, char **av, t_p *a);
+int		i_scheduler(t_p_mx *m);
+void	*simulation(t_p_mx *m);
+void	create_philo_process(t_p_mx *philos, t_p *a);
+void	v_end_child(t_p *a);
 void	*check_death(void *m);
-void	usage(void);
-void	ft_eating(t_p_mx *m);
-void	ft_sleeping(t_p_mx *m);
-void	ft_thinking(t_p_mx *m);
-void	ft_dying(t_p_mx *m);
+void	v_error_msg(void);
+void	v_eating(t_p_mx *m);
+void	v_sleeping(t_p_mx *m);
+void	v_thinking(t_p_mx *m);
+void	v_dying(t_p_mx *m);
 
 #endif

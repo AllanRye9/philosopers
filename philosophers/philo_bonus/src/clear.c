@@ -12,7 +12,7 @@
 
 #include "philo_bonus.h"
 
-void	usage(void)
+void	v_error_msg(void)
 {
 	printf("Invalid Argument or Format\n");
 }

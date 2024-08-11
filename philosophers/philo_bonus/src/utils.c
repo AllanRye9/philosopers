@@ -28,7 +28,7 @@ static int neg(const char *s)
 	return (0);
 }
 
-int	my_atoi(const char *str, int *n)
+int	i_atoi(const char *str, int *n)
 {
 	int	sign;
 
@@ -62,7 +62,7 @@ static int	check_ll_type(int sign, t_msec *n)
 	return (0);
 }
 
-int	my_atoll(const char *str, t_msec *n)
+int	i_atoll(const char *str, t_msec *n)
 {
 	int	sign;
 

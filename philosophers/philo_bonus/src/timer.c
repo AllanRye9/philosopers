@@ -12,7 +12,7 @@
 
 #include "philo_bonus.h"
 
-t_msec	timestamp(void)
+t_msec	ll_timestamp(void)
 {
 	struct timeval	t;
 
@@ -21,16 +21,16 @@ t_msec	timestamp(void)
 	return (((long long)t.tv_sec * 1000) + ((long long)t.tv_usec / 1000));
 }
 
-void	ft_usleep(t_msec waiting_time)
+void	v_usleep(t_msec s)
 {
 	t_msec	t;
 
-	t = timestamp();
-	while (waiting_time - t > 5)
+	t = ll_timestamp();
+	while (s - t > 5)
 	{
-		usleep(1000 * (waiting_time - t - 5));
-		t = timestamp();
+		usleep(1000 * (s - t - 5));
+		t = ll_timestamp();
 	}
-	while (waiting_time > t)
-		t = timestamp();
+	while (s > t)
+		t = ll_timestamp();
 }

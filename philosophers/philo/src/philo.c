@@ -12,57 +12,56 @@
 
 #include "philo.h"
 
-void	*schedule(void *philo)
+void	*simulation(void *p)
 {
 	t_p_mx	*m;
 
-	m = (t_p_mx *)philo;
+	m = (t_p_mx *)p;
 	m->die_time = m->p->start + m->p->timetodie;
 	if (m->id % 2 == 0)
-		ft_usleep(timestamp() + m->p->timetoeat);
+		v_pause(ll_timestamp() + m->p->timetoeat);
 	while (1)
 	{
-		if (ft_table(m) == 0 || m->data->is_dead == 1)
+		if (i_scheduler(m) == 0 || m->data->is_dead == 1)
 			return (NULL);
 	}
 	return (NULL);
 }
 
-void	philo_create(t_p_main *philo_r)
+void	v_create_philos(t_p_main *p)
+{
+	int	i;
+
+	i = -1;
+	while (++i < p->count)
+	{
+		pthread_create(&p->threads[i], NULL, simulation,
+			(void *)&p->philos[i]);
+	}
+}
+
+void	v_join_philos(t_p_main *p)
 {
 	int	i;
 
 	i = 0;
-	while (i < philo_r->count)
+	while (i < p->count)
 	{
-		pthread_create(&philo_r->threads[i], NULL, schedule,
-			(void *)&philo_r->philos[i]);
+		pthread_join(p->threads[i], NULL);
 		i++;
 	}
 }
 
-void	philo_join(t_p_main *philo_r)
+void	v_eating(t_p_mx *m)
 {
-	int	i;
-
-	i = 0;
-	while (i < philo_r->count)
-	{
-		pthread_join(philo_r->threads[i], NULL);
-		i++;
-	}
-}
-
-void	ft_eating(t_p_mx *m)
-{
-	ft_printing(m, 0);
-	pthread_mutex_lock(m->secondfork);
-	ft_printing(m, 0);
-	ft_printing(m, 1);
-	m->die_time = timestamp() + m->p->timetodie + m->p->timetoeat;
-	ft_usleep(timestamp() + m->p->timetoeat);
-	if (m->p->numtoeat != -1)
-		m->times_eaten += 1;
-	pthread_mutex_unlock(m->secondfork);
-	pthread_mutex_unlock(m->first_fork);
+	v_print(m, 0);
+	pthread_mutex_lock(m->fork_two);
+	v_print(m, 0);
+	v_print(m, 1);
+	m->die_time = ll_timestamp() + m->p->timetodie + m->p->timetoeat;
+	v_pause(ll_timestamp() + m->p->timetoeat);
+	if (m->p->n_meals_toeat != -1)
+		m->meals_eaten += 1;
+	pthread_mutex_unlock(m->fork_two);
+	pthread_mutex_unlock(m->fork_one);
 }

@@ -20,7 +20,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
-# include <stdbool.h>
 
 typedef long long	t_msec;
 
@@ -31,60 +30,61 @@ typedef struct s_philo_p
 	t_msec		timetoeat;
 	t_msec		timetosleep;
 	t_msec		start;
-	int			numtoeat;
+	int			n_meals_toeat;
 }	t_p;
 
 typedef struct s_philo_m
 {
-	t_p			*p;
+	t_p					*p;
 	int					id;
 	t_msec				die_time;
 	t_msec				eat_time;
 	pthread_mutex_t		left_fork;
 	pthread_mutex_t		*right_fork;
-	pthread_mutex_t		*first_fork;
-	pthread_mutex_t		*secondfork;
-	pthread_mutex_t		times_eaten_m;
-	int					times_eaten;
+	pthread_mutex_t		*fork_one;
+	pthread_mutex_t		*fork_two;
+	pthread_mutex_t		meals_eaten_m;
+	int					meals_eaten;
 	pthread_mutex_t		*pr;
-	struct s_p_main	*data;
+	struct s_p_main		*data;
 }	t_p_mx;
 
 typedef struct s_p_main
 {
 	int				is_dead;
-	t_p_mx		*philos;
+	t_p_mx			*philos;
 	pthread_t		*threads;
 	int				count;
 	pthread_mutex_t	printing;
 }	t_p_main;
 
-enum	e_print {
+enum	ev_print
+{
 	e_fork = 0,
-	e_eating = 1,
-	e_sleeping = 2,
-	e_thinking = 3,
+	ev_eating = 1,
+	ev_sleeping = 2,
+	ev_thinking = 3,
 	e_dead = 4
 };
 
-int				my_atoi(const char *str, int *n);
-int				var_init(int ac, char **av, t_p *args);
-int				ft_table(t_p_mx *m);
-int				my_atoll(const char *str, t_msec *n);
-int				philo_init(t_p_main *philo_r, t_p *args);
-t_msec			timestamp(void);
-void			ft_eating(t_p_mx *m);
-void			ft_sleeping(t_p_mx *m);
-void			display_error(void);
-void			ft_thinking(t_p_mx *m);
-void			ft_usleep(t_msec ms);
-void			ft_dying(t_p_mx *m);
-void			*schedule(void *philo);
-void			free_all(t_p_main *philo_r);
-void			init_philos(t_p_mx *philos, t_p *args, int i);
+int				i_atoi(const char *str, int *n);
+int				i_init_args(int ac, char **av, t_p *a);
+int				i_scheduler(t_p_mx *m);
+int				i_atoll(const char *str, t_msec *n);
+int				i_philo_alloc(t_p_main *p, t_p *a);
+t_msec			ll_timestamp(void);
+void			v_eating(t_p_mx *m);
+void			v_sleeping(t_p_mx *m);
+void			v_error(void);
+void			v_thinking(t_p_mx *m);
+void			v_pause(t_msec ms);
+void			v_dying(t_p_mx *m);
+void			*simulation(void *philo);
+void			v_free_all(t_p_main *p);
+void			v_forking(t_p_mx *philos, t_p *a, int i);
 void			*philo_life(void *p);
-void			philo_create(t_p_main *philo_r);
-void			philo_join(t_p_main *philo_r);
-void			init_philos(t_p_mx *philos, t_p *args, int i);
-void			ft_printing(t_p_mx *m, enum e_print print);
+void			v_create_philos(t_p_main *p);
+void			v_join_philos(t_p_main *p);
+void			v_forking(t_p_mx *philos, t_p *a, int i);
+void			v_print(t_p_mx *m, enum ev_print print);
 #endif

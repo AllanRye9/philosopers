@@ -12,25 +12,25 @@
 
 #include "philo_bonus.h"
 
-int	initialization(int ac, char **av, t_p *args)
+int	initialization(int ac, char **av, t_p *a)
 {
-	args->numtoeat = -1;
+	a->n_meals_toeat = -1;
 	if (ac != 6 && ac != 5)
 		return (1);
-	if (my_atoi(av[1], &args->numofphilo))
+	if (i_atoi(av[1], &a->numofphilo))
 		return (1);
-	if (my_atoll(av[2], &args->timetodie))
+	if (i_atoll(av[2], &a->timetodie))
 		return (1);
-	if (my_atoll(av[3], &args->timetoeat))
+	if (i_atoll(av[3], &a->timetoeat))
 		return (1);
-	if (my_atoll(av[4], &args->timetosleep))
+	if (i_atoll(av[4], &a->timetosleep))
 		return (1);
 	if (ac == 6)
 	{
-		if (my_atoi(av[5], &args->numtoeat))
+		if (i_atoi(av[5], &a->n_meals_toeat))
 			return (1);
 	}
-	if (args->numofphilo == 0 || args->numtoeat == 0)
+	if (a->numofphilo == 0 || a->n_meals_toeat == 0)
 		return (1);
 	return (0);
 }

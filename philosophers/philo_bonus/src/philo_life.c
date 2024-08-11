@@ -12,19 +12,19 @@
 
 #include "philo_bonus.h"
 
-void	ft_sleeping(t_p_mx *m)
+void	v_sleeping(t_p_mx *m)
 {
-	ft_printing(m, 2);
-	ft_usleep(timestamp() + m->p->timetosleep);
+	v_print(m, 2);
+	v_usleep(ll_timestamp() + m->p->timetosleep);
 }
 
-void	ft_thinking(t_p_mx *m)
+void	v_thinking(t_p_mx *m)
 {
-	ft_printing(m, 3);
+	v_print(m, 3);
 }
 
-void	ft_dying(t_p_mx *m)
+void	v_dying(t_p_mx *m)
 {
-	ft_usleep(m->die_time);
-	ft_printing(m, 4);
+	v_usleep(m->die_time);
+	v_print(m, 4);
 }

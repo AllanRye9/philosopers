@@ -14,24 +14,21 @@
 
 int	main(int ac, char **av)
 {
-	t_p	args;
+	t_p	a;
 	t_p_mx	philos;
 
-	if (initialization(ac, av, &args))
-	{
-		usage();
-		return (0);
-	}
-	args.start = timestamp();
-	semphonize(&philos, &args);
-	if (args.numofphilo == 1)
+	if (initialization(ac, av, &a))
+		return (v_error_msg(), 0);
+	a.start = ll_timestamp();
+	semphonize(&philos, &a);
+	if (a.numofphilo == 1)
 	{
 		printf("%lld %d %s\n", (long long)0, 1, "has taken a fork");
-		ft_usleep(args.start + args.timetodie);
-		printf("%lld %d died\n", timestamp() - args.start, 1);
+		v_usleep(a.start + a.timetodie);
+		printf("%lld %d died\n", ll_timestamp() - a.start, 1);
 		return (0);
 	}
-	create_philo(&philos, &args);
+	create_philo_process(&philos, &a);
 	sem_unlink("/forks");
 	sem_unlink("/pr");
 	sem_unlink("/dead");

@@ -12,44 +12,44 @@
 
 #include "philo.h"
 
-void	ft_thinking(t_p_mx *m)
+void	v_thinking(t_p_mx *m)
 {
-	ft_printing(m, 3);
+	v_print(m, 3);
 }
 
-void	ft_dying(t_p_mx *m)
+void	v_dying(t_p_mx *m)
 {
-	ft_usleep(m->die_time);
-	ft_printing(m, 4);
+	v_pause(m->die_time);
+	v_print(m, 4);
 }
 
-void	ft_sleeping(t_p_mx *m)
+void	v_sleeping(t_p_mx *m)
 {
-	ft_printing(m, 2);
-	ft_usleep(timestamp() + m->p->timetosleep);
+	v_print(m, 2);
+	v_pause(ll_timestamp() + m->p->timetosleep);
 }
 
-int	ft_table(t_p_mx *m)
+int	i_scheduler(t_p_mx *m)
 {
-	pthread_mutex_lock(m->first_fork);
-	if (timestamp() + m->p->timetoeat <= m->die_time
-		&& (m->times_eaten < m->p->numtoeat || m->p->numtoeat == -1))
-		ft_eating(m);
+	pthread_mutex_lock(m->fork_one);
+	if (ll_timestamp() + m->p->timetoeat <= m->die_time
+		&& (m->meals_eaten < m->p->n_meals_toeat || m->p->n_meals_toeat == -1))
+		v_eating(m);
 	else
 	{
-		pthread_mutex_unlock(m->first_fork);
-		if (timestamp() + m->p->timetoeat > m->die_time)
-			ft_dying(m);
+		pthread_mutex_unlock(m->fork_one);
+		if (ll_timestamp() + m->p->timetoeat > m->die_time)
+			v_dying(m);
 		return (0);
 	}
-	if (timestamp() + m->p->timetosleep > m->die_time)
+	if (ll_timestamp() + m->p->timetosleep > m->die_time)
 	{
 		m->die_time -= m->p->timetoeat;
-		ft_dying(m);
+		v_dying(m);
 		return (0);
 	}
 	else
-		ft_sleeping(m);
-	ft_thinking(m);
+		v_sleeping(m);
+	v_thinking(m);
 	return (1);
 }
